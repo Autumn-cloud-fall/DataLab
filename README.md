@@ -108,19 +108,19 @@ P2 `bitXor` 只能使用 `~` 和 `&`，不能使用其他通常允许的整数�
 | P2 | `bitXor(x,y)` | 任意 `int` | 仅 `~ &` | 8 | 2 |
 | P3 | `negativePart(x)` | 任意 `int` | 通用整数运算 | 6 | 3 |
 | P4 | `copyByteWithin(x,src,dst)` | `src,dst` 为 0–3 | 通用整数运算 | 12 | 4 |
-| P5 | `roundEvenPow2(x,n)` | `0<=x<=0x3fffffff`，`1<=n<=16` | 通用整数运算 | 24 | 4 |
-| P6 | `isBetweenEitherOrder(x,a,b)` | 任意 `int` | 通用整数运算 | 48 | 4 |
-| P7 | `logicalShift(x,n)` | `0<=n<=31` | 通用整数运算 | 20 | 4 |
-| P8 | `swapNibblePairs(x)` | 任意 `int` | 通用整数运算 | 18 | 5 |
-| P9 | `secondLowestZeroBit(x)` | 任意 `int` | 通用整数运算 | 8 | 5 |
-| P10 | `rotateRightBits(x,n)` | `0<=n<=INT_MAX`，实际位数按 32 取模 | 通用整数运算 | 16 | 5 |
+| P5 | `logicalShift(x,n)` | `0<=n<=31` | 通用整数运算 | 20 | 4 |
+| P6 | `swapNibblePairs(x)` | 任意 `int` | 通用整数运算 | 18 | 4 |
+| P7 | `secondLowestZeroBit(x)` | 任意 `int` | 通用整数运算 | 8 | 4 |
+| P8 | `oddParity(x)` | 任意 `int` | 通用整数运算 | 56 | 5 |
+| P9 | `rotateRightBits(x,n)` | `0<=n<=INT_MAX`，实际位数按 32 取模 | 通用整数运算 | 16 | 5 |
+| P10 | `roundEvenPow2(x,n)` | `0<=x<=0x3fffffff`，`1<=n<=16` | 通用整数运算 | 24 | 5 |
 | P11 | `midpointTowardFirst(x,y)` | 任意 `int` | 通用整数运算 | 32 | 5 |
-| P12 | `classifyAdd3(x,y,z)` | 任意 `int` | 通用整数运算 | 52 | 7 |
+| P12 | `isBetweenEitherOrder(x,a,b)` | 任意 `int` | 通用整数运算 | 48 | 7 |
 | P13 | `mul5Sat(x)` | 任意 `int` | 通用整数运算 | 30 | 7 |
-| P14 | `floatScaleThreeHalves(uf)` | 任意单精度位模式 | 浮点题整数规则与控制流 | 60 | 7 |
-| P15 | `float_i2f(x)` | 任意 `int` | 浮点题整数规则与控制流 | 40 | 7 |
+| P14 | `classifyAdd3(x,y,z)` | 任意 `int` | 通用整数运算 | 52 | 7 |
+| P15 | `floatScaleThreeHalves(uf)` | 任意单精度位模式 | 浮点题整数规则与控制流 | 60 | 7 |
 | P16 | `floatRoundEven(uf)` | 任意单精度位模式 | 浮点题整数规则与控制流 | 65 | 10 |
-| P17 | `oddParity(x)` | 任意 `int` | 通用整数运算 | 56 | 10 |
+| P17 | `float_i2f(x)` | 任意 `int` | 浮点题整数规则与控制流 | 40 | 10 |
 | P18 | `bitCount(x)` | 任意 `int` | 通用整数运算 | 40 | 10 |
 | P19 | `bitReverse(x)` | 任意 `int` | 通用整数运算 | 34 | 10 |
 

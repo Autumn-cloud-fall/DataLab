@@ -78,32 +78,6 @@ jobs:
           comparison-method: contains
           timeout: 10
           max-score: 4
-      - name: roundEvenPow2
-        id: roundevenpow2
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: roundEvenPow2
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f roundEvenPow2
-          input: ""
-          expected-output: "Total points: 4/4"
-          comparison-method: contains
-          timeout: 10
-          max-score: 4
-      - name: isBetweenEitherOrder
-        id: isbetweeneitherorder
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: isBetweenEitherOrder
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f isBetweenEitherOrder
-          input: ""
-          expected-output: "Total points: 4/4"
-          comparison-method: contains
-          timeout: 10
-          max-score: 4
       - name: logicalShift
         id: logicalshift
         uses: classroom-resources/autograding-io-grader@v1
@@ -126,10 +100,10 @@ jobs:
             && make all
           command: ./btest -f swapNibblePairs
           input: ""
-          expected-output: "Total points: 5/5"
+          expected-output: "Total points: 4/4"
           comparison-method: contains
           timeout: 10
-          max-score: 5
+          max-score: 4
       - name: secondLowestZeroBit
         id: secondlowestzerobit
         uses: classroom-resources/autograding-io-grader@v1
@@ -138,6 +112,19 @@ jobs:
           setup-command: sudo apt-get install gcc-multilib && make clean
             && make all
           command: ./btest -f secondLowestZeroBit
+          input: ""
+          expected-output: "Total points: 4/4"
+          comparison-method: contains
+          timeout: 10
+          max-score: 4
+      - name: oddParity
+        id: oddparity
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: oddParity
+          setup-command: sudo apt-get install gcc-multilib && make clean
+            && make all
+          command: ./btest -f oddParity
           input: ""
           expected-output: "Total points: 5/5"
           comparison-method: contains
@@ -156,6 +143,19 @@ jobs:
           comparison-method: contains
           timeout: 10
           max-score: 5
+      - name: roundEvenPow2
+        id: roundevenpow2
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: roundEvenPow2
+          setup-command: sudo apt-get install gcc-multilib && make clean
+            && make all
+          command: ./btest -f roundEvenPow2
+          input: ""
+          expected-output: "Total points: 5/5"
+          comparison-method: contains
+          timeout: 10
+          max-score: 5
       - name: midpointTowardFirst
         id: midpointtowardfirst
         uses: classroom-resources/autograding-io-grader@v1
@@ -169,14 +169,14 @@ jobs:
           comparison-method: contains
           timeout: 10
           max-score: 5
-      - name: classifyAdd3
-        id: classifyadd3
+      - name: isBetweenEitherOrder
+        id: isbetweeneitherorder
         uses: classroom-resources/autograding-io-grader@v1
         with:
-          test-name: classifyAdd3
+          test-name: isBetweenEitherOrder
           setup-command: sudo apt-get install gcc-multilib && make clean
             && make all
-          command: ./btest -f classifyAdd3
+          command: ./btest -f isBetweenEitherOrder
           input: ""
           expected-output: "Total points: 7/7"
           comparison-method: contains
@@ -195,6 +195,19 @@ jobs:
           comparison-method: contains
           timeout: 10
           max-score: 7
+      - name: classifyAdd3
+        id: classifyadd3
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: classifyAdd3
+          setup-command: sudo apt-get install gcc-multilib && make clean
+            && make all
+          command: ./btest -f classifyAdd3
+          input: ""
+          expected-output: "Total points: 7/7"
+          comparison-method: contains
+          timeout: 10
+          max-score: 7
       - name: floatScaleThreeHalves
         id: floatscalethreehalves
         uses: classroom-resources/autograding-io-grader@v1
@@ -208,32 +221,6 @@ jobs:
           comparison-method: contains
           timeout: 10
           max-score: 7
-      - name: float_i2f
-        id: float_i2f
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: float_i2f
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f float_i2f
-          input: ""
-          expected-output: "Total points: 7/7"
-          comparison-method: contains
-          timeout: 10
-          max-score: 7
-      - name: oddParity
-        id: oddparity
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: oddParity
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f oddParity
-          input: ""
-          expected-output: "Total points: 10/10"
-          comparison-method: contains
-          timeout: 10
-          max-score: 10
       - name: floatRoundEven
         id: floatroundeven
         uses: classroom-resources/autograding-io-grader@v1
@@ -242,6 +229,19 @@ jobs:
           setup-command: sudo apt-get install gcc-multilib && make clean
             && make all
           command: ./btest -f floatRoundEven
+          input: ""
+          expected-output: "Total points: 10/10"
+          comparison-method: contains
+          timeout: 10
+          max-score: 10
+      - name: float_i2f
+        id: float_i2f
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: float_i2f
+          setup-command: sudo apt-get install gcc-multilib && make clean
+            && make all
+          command: ./btest -f float_i2f
           input: ""
           expected-output: "Total points: 10/10"
           comparison-method: contains
@@ -297,4 +297,4 @@ jobs:
           BITCOUNT_RESULTS: "${{steps.bitcount.outputs.result}}"
           BITREVERSE_RESULTS: "${{steps.bitreverse.outputs.result}}"
         with:
-          runners: operator-check,signmask,bitxor,negativepart,copybytewithin,roundevenpow2,isbetweeneitherorder,logicalshift,swapnibblepairs,secondlowestzerobit,rotaterightbits,midpointtowardfirst,classifyadd3,mul5sat,floatscalethreehalves,float_i2f,floatroundeven,oddparity,bitcount,bitreverse
+          runners: operator-check,signmask,bitxor,negativepart,copybytewithin,logicalshift,swapnibblepairs,secondlowestzerobit,oddparity,rotaterightbits,roundevenpow2,midpointtowardfirst,isbetweeneitherorder,mul5sat,classifyadd3,floatscalethreehalves,floatroundeven,float_i2f,bitcount,bitreverse
