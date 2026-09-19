@@ -32,6 +32,6 @@ test_rec test_set[] = {
     {"floatRoundEven", (funct_t)floatRoundEven, (funct_t)test_floatRoundEven, 1, "$", 65, 10, {{1, 1}, {1, 1}, {1, 1}}},
     {"oddParity", (funct_t)oddParity, (funct_t)test_oddParity, 1, "! ~ & ^ | + << >>", 56, 10, {{TMin, TMax}, {TMin, TMax}, {TMin, TMax}}},
     {"bitCount", (funct_t)bitCount, (funct_t)test_bitCount, 1, "! ~ & ^ | + << >>", 40, 10, {{TMin, TMax}, {TMin, TMax}, {TMin, TMax}}},
-    {"bitReverse", (funct_t)bitReverse, (funct_t)test_bitReverse, 1, "! ~ & ^ | + << >>", 34, 10, {{1, TMax}, {TMin, TMax}, {TMin, TMax}}},
+    {"bitReverse", (funct_t)bitReverse, (funct_t)test_bitReverse, 1, "! ~ & ^ | + << >>", 34, 10, {{TMin, TMax}, {TMin, TMax}, {TMin, TMax}}},
 
     {"", NULL, NULL, 0, "", 0, 0, {{0, 0}, {0, 0}, {0, 0}}}};
