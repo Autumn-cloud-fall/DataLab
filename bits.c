@@ -68,6 +68,8 @@ INTEGER CODING RULES:
   2. Performs right shifts arithmetically.
   3. Has unpredictable behavior when shifting if the shift amount
      is less than 0 or greater than 31.
+  4. Interprets integer expressions using the Data Lab 32-bit bit-vector
+     model: results outside the signed range retain their low 32 bits.
 
 
 EXAMPLES OF ACCEPTABLE CODING STYLE:
@@ -268,7 +270,9 @@ int rotateRightBits(int x, int n) {
 // P11
 /* 
  * midpointTowardFirst - return the exact mathematical midpoint (x+y)/2
- *   without overflow. When the midpoint is a half-integer, round toward x.
+ *   without overflow. If the exact midpoint lies halfway between two
+ *   integers, choose the adjacent integer that is closer to the first
+ *   argument x.
  *   Examples: midpointTowardFirst(4, 7) = 5,
  *             midpointTowardFirst(7, 4) = 6
  *   Legal ops: ! ~ & ^ | + << >>
@@ -313,7 +317,8 @@ int mul5Sat(int x) {
  *   Both the argument and result are passed as unsigned int's, but
  *   they are to be interpreted as the bit-level representation of
  *   single-precision floating point values.
- *   Use round-to-nearest-even. When argument is NaN, return argument.
+ *   Use round-to-nearest-even. Preserve the sign of both +0 and -0.
+ *   When argument is NaN, return argument.
  *   Legal ops: Any integer / unsigned operations incl. ||, &&. also if, while
  *   Max ops: 60
  *   Rating: 7
