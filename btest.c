@@ -151,7 +151,8 @@ static int gen_vals(int test_vals[], int min, int max, int test_range, int arg)
 		unsigned sign = 0x80000000;
 		unsigned focus[] = {
 			0x003fffff, 0x00555556, 0x00800000,
-			0x3f000000, 0x3f800000, 0x3faaaaab, 0x3fc00000,
+			0x3e800000, 0x3f000000, 0x3f800000, 0x3faaaaab,
+			0x3fc00000,
 			0x40200000, 0x40600000, 0x4affffff, 0x4b000000,
 			0x7f2aaaab, 0x7f7fffff
 		};

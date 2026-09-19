@@ -365,7 +365,9 @@ unsigned float_i2f(int x) {
  * floatRoundEven - round the floating-point value represented by uf to the
  *   nearest integer, with halfway cases rounded to the even integer. Return
  *   the bit-level representation of that integer as a single-precision float.
- *   Preserve signed zero. When uf is NaN or infinity, return uf unchanged.
+ *   If rounding produces zero, preserve the input sign; thus a negative
+ *   value that rounds to zero returns -0. When uf is NaN or infinity,
+ *   return uf unchanged.
  *   Legal ops: Any integer / unsigned operations incl. ||, &&. also if, while
  *   Max ops: 65
  *   Rating: 10
