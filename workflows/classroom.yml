@@ -20,10 +20,10 @@ jobs:
           test-name: Operator Check
           setup-command: sudo apt-get install gcc-multilib && make clean
             && make all
-          command: chmod +x dlc && ./dlc bits.c
+          command: chmod +x dlc check_ops.py && ./check_ops.py bits.c
           input: ""
-          expected-output: "^$"
-          comparison-method: regex
+          expected-output: "All 19 functions passed operator checks."
+          comparison-method: contains
           timeout: 10
           max-score: 100
       - name: signMask

@@ -149,6 +149,14 @@ static int gen_vals(int test_vals[], int min, int max, int test_range, int arg)
 		unsigned inf = 0x7f800000;
 		unsigned nan = 0x7fc00000;
 		unsigned sign = 0x80000000;
+		unsigned focus[] = {
+			0x003fffff, 0x00555556, 0x00800000,
+			0x3f000000, 0x3f800000, 0x3faaaaab, 0x3fc00000,
+			0x40200000, 0x40600000, 0x4affffff, 0x4b000000,
+			0x7f2aaaab, 0x7f7fffff
+		};
+		int focus_count = sizeof(focus) / sizeof(focus[0]);
+		int j, delta;
 
 		/* Test range should be at most 1/2 the range of one exponent
 		   value */
@@ -190,6 +198,17 @@ static int gen_vals(int test_vals[], int min, int max, int test_range, int arg)
 		test_vals[test_count++] = sign | inf; /* -inf */
 		test_vals[test_count++] = nan;		  /* nan */
 		test_vals[test_count++] = sign | nan; /* -nan */
+
+		/* Directed neighborhoods for halfway-to-even rounding, the
+		   denormal/normal boundary, significand renormalization, and
+		   overflow after scaling by 3/2. */
+		for (j = 0; j < focus_count; j++) {
+			for (delta = -2; delta <= 2; delta++) {
+				unsigned value = focus[j] + delta;
+				test_vals[test_count++] = value;
+				test_vals[test_count++] = sign | value;
+			}
+		}
 
 		return test_count;
 	}

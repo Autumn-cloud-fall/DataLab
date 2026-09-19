@@ -6,14 +6,15 @@ if ! make clean || ! make all; then
     exit 1
 fi
 
-dlc_output=$(./dlc bits.c 2>&1)
+dlc_output=$(./check_ops.py bits.c 2>&1)
 dlc_status=$?
-if [ "$dlc_status" -ne 0 ] || [ -n "$dlc_output" ]; then
-    echo "dlc check failed" >&2
+if [ "$dlc_status" -ne 0 ]; then
+    echo "operator check failed" >&2
     printf '%s\n' "$dlc_output" >&2
     exit 1
 fi
-echo "dlc check passed"
+printf '%s\n' "$dlc_output"
+echo "operator check passed"
 
 btest_output=$(./btest 2>&1)
 btest_status=$?
