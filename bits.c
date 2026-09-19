@@ -190,34 +190,6 @@ int copyByteWithin(int x, int src, int dst) {
 
 // P5
 /* 
- * roundEvenPow2 - round nonnegative x to the nearest multiple of 2^n.
- *   If x is exactly halfway between two multiples, choose the multiple whose
- *   quotient by 2^n is even.
- *   You can assume 0 <= x <= 0x3fffffff and 1 <= n <= 16.
- *   Examples: roundEvenPow2(10, 2) = 8, roundEvenPow2(14, 2) = 16
- *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 24
- *   Rating: 4
- */
-int roundEvenPow2(int x, int n) {
-  return 0;
-}
-
-// P6
-/* 
- * isBetweenEitherOrder - return 1 when x lies in the inclusive interval whose
- *   endpoints are a and b. The endpoints may be given in either order.
- *   Example: isBetweenEitherOrder(5, 8, 3) = 1.
- *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 48
- *   Rating: 4
- */
-int isBetweenEitherOrder(int x, int a, int b) {
-  return 0;
-}
-
-// P7
-/* 
  * logicalShift - shift x to the right by n bits, using a logical shift
  *   Can assume that 0 <= n <= 31
  *   Examples: logicalShift(0x87654321,4) = 0x08765432
@@ -229,32 +201,45 @@ int logicalShift(int x, int n) {
   return 7;
 }
 
-// P8
+// P6
 /*
  * swapNibblePairs - swap the low and high 4 bits within each byte of x
  *   Examples: swapNibblePairs(0xAB) = 0xBA
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 18
- *   Rating: 5
+ *   Rating: 4
  */
 int swapNibblePairs(int x) {
   return 8;
 }
 
-// P9
+// P7
 /*
  * secondLowestZeroBit - return a mask that marks the position of the second least significant 0 bit
  *   Examples: secondLowestZeroBit(0xFFFFFFFA) = 0x4, secondLowestZeroBit(0x7FFFFFFF) = 0
  *             secondLowestZeroBit(-1) = 0
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 8
- *   Rating: 5
+ *   Rating: 4
  */
 int secondLowestZeroBit(int x) {
   return 9;
 }
 
-// P10
+// P8
+/*
+ * oddParity - return the odd parity bit of x, that is,
+ *      when the number of 1s in the binary representation of x is even, then the return 1, otherwise return 0.
+ *   Examples: oddParity(5) = 1, oddParity(7) = 0
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 56
+ *   Rating: 5
+ */
+int oddParity(int x) {
+  return 17;
+}
+
+// P9
 /* 
  * rotateRightBits - rotate x to right by n bits
  *   you can assume n >= 0
@@ -265,6 +250,21 @@ int secondLowestZeroBit(int x) {
  */
 int rotateRightBits(int x, int n) {
   return 10;
+}
+
+// P10
+/*
+ * roundEvenPow2 - round nonnegative x to the nearest multiple of 2^n.
+ *   If x is exactly halfway between two multiples, choose the multiple whose
+ *   quotient by 2^n is even.
+ *   You can assume 0 <= x <= 0x3fffffff and 1 <= n <= 16.
+ *   Examples: roundEvenPow2(10, 2) = 8, roundEvenPow2(14, 2) = 16
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 24
+ *   Rating: 5
+ */
+int roundEvenPow2(int x, int n) {
+  return 0;
 }
 
 // P11
@@ -286,14 +286,14 @@ int midpointTowardFirst(int x, int y) {
 
 // P12
 /* 
- * classifyAdd3 - classify the exact mathematical sum x+y+z.
- *   Return 1 if the sum is greater than INT_MAX, -1 if it is less than
- *   INT_MIN, and 0 otherwise. You may not use a wider integer type.
+ * isBetweenEitherOrder - return 1 when x lies in the inclusive interval whose
+ *   endpoints are a and b. The endpoints may be given in either order.
+ *   Example: isBetweenEitherOrder(5, 8, 3) = 1.
  *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 52
- *   Rating: 7 
+ *   Max ops: 48
+ *   Rating: 7
  */
-int classifyAdd3(int x, int y, int z) {
+int isBetweenEitherOrder(int x, int a, int b) {
   return 0;
 }
 
@@ -312,6 +312,19 @@ int mul5Sat(int x) {
 
 // P14
 /* 
+ * classifyAdd3 - classify the exact mathematical sum x+y+z.
+ *   Return 1 if the sum is greater than INT_MAX, -1 if it is less than
+ *   INT_MIN, and 0 otherwise. You may not use a wider integer type.
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 52
+ *   Rating: 7
+ */
+int classifyAdd3(int x, int y, int z) {
+  return 0;
+}
+
+// P15
+/*
  * floatScaleThreeHalves - Return bit-level equivalent of expression f*3/2 for
  *   floating point argument f.
  *   Both the argument and result are passed as unsigned int's, but
@@ -326,39 +339,6 @@ int mul5Sat(int x) {
 unsigned floatScaleThreeHalves(unsigned uf) {
   return 0;
 }
-
-// P15
-/* 
- * float_i2f - Return bit-level equivalent of expression (float) x.
- *   Result is returned as unsigned int, but
- *   it is to be interpreted as the bit-level representation of a
- *   single-precision floating point values.
- *   Legal ops: Any integer / unsigned operations incl. ||, &&. also if, while
- *   Max ops: 40
- *   Rating: 7
- */
-unsigned float_i2f(int x) {
-  return 15;
-}
-
-
-#ifdef NOT_SUPPOSED_TO_BE_DEFINED
-#   __          __  _                          
-#   \ \        / / | |                         
-#    \ \  /\  / /__| | ___ ___  _ __ ___   ___ 
-#     \ \/  \/ / _ \ |/ __/ _ \| '_ ' _ \ / _ \
-#      \  /\  /  __/ | (_| (_) | | | | | |  __/       
-#       \/  \/ \___|_|\___\___/|_| |_| |_|\___|
-#                                              
-
-#  ██╗  ██╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗     ██████╗  █████╗ ██████╗ ████████╗
-#  ██║  ██║██╔═══██╗████╗  ██║██╔═══██╗██╔══██╗    ██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝
-#  ███████║██║   ██║██╔██╗ ██║██║   ██║██████╔╝    ██████╔╝███████║██████╔╝   ██║   
-#  ██╔══██║██║   ██║██║╚██╗██║██║   ██║██╔══██╗    ██╔═══╝ ██╔══██║██╔══██╗   ██║   
-#  ██║  ██║╚██████╔╝██║ ╚████║╚██████╔╝██║  ██║    ██║     ██║  ██║██║  ██║   ██║   
-#  ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
-#                                                                                   
-#endif
 
 // P16
 /* 
@@ -378,16 +358,19 @@ unsigned floatRoundEven(unsigned uf) {
 
 // P17
 /*
- * oddParity - return the odd parity bit of x, that is, 
- *      when the number of 1s in the binary representation of x is even, then the return 1, otherwise return 0.
- *   Examples: oddParity(5) = 1, oddParity(7) = 0
- *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 56
+ * float_i2f - Return bit-level equivalent of expression (float) x.
+ *   Result is returned as unsigned int, but
+ *   it is to be interpreted as the bit-level representation of a
+ *   single-precision floating point values.
+ *   Legal ops: Any integer / unsigned operations incl. ||, &&. also if, while
+ *   Max ops: 40
  *   Rating: 10
  */
-int oddParity(int x) {
-  return 17;
+unsigned float_i2f(int x) {
+  return 15;
 }
+
+
 
 // P18
 /*
