@@ -174,39 +174,44 @@ int negativePart(int x){
 
 // P4
 /*
- * clearByte - return x with the nth byte cleared to 0
- *   You can assume 0 <= n <= 3
- *   Example: clearByte(0x01020304, 2) = 0x01000304
+ * copyByteWithin - copy byte src of x to byte dst, leaving all other bytes unchanged
+ *   Bytes are numbered from 0 (least significant) to 3 (most significant).
+ *   You can assume 0 <= src <= 3 and 0 <= dst <= 3.
+ *   Example: copyByteWithin(0x11223344, 0, 2) = 0x11443344
  *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 6
+ *   Max ops: 12
  *   Rating: 4
  */
-int clearByte(int x,int n) {
-  return 4;
+int copyByteWithin(int x, int src, int dst) {
+  return 0;
 }
 
 // P5
 /* 
- * roundUp - round up x to the nearest multiple of 256 that is bigger than x
- *   Example: roundUp(0x117f) = 0x1200
- *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 8
- *   Rating: 4
- */
-int roundUp(int x) {
-  return 5;
-}
-
-// P6
-/* 
- * isLargerOrEqual - return 1 if x >= y, else return 0 
- *   Example: isLargerOrEqual(5,4) = 1.
+ * roundEvenPow2 - round nonnegative x to the nearest multiple of 2^n.
+ *   If x is exactly halfway between two multiples, choose the multiple whose
+ *   quotient by 2^n is even.
+ *   You can assume 0 <= x <= 0x3fffffff and 1 <= n <= 16.
+ *   Examples: roundEvenPow2(10, 2) = 8, roundEvenPow2(14, 2) = 16
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 24
  *   Rating: 4
  */
-int isLargerOrEqual(int x, int y) {
-  return 6;
+int roundEvenPow2(int x, int n) {
+  return 0;
+}
+
+// P6
+/* 
+ * isBetweenEitherOrder - return 1 when x lies in the inclusive interval whose
+ *   endpoints are a and b. The endpoints may be given in either order.
+ *   Example: isBetweenEitherOrder(5, 8, 3) = 1.
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 48
+ *   Rating: 4
+ */
+int isBetweenEitherOrder(int x, int a, int b) {
+  return 0;
 }
 
 // P7
@@ -227,7 +232,7 @@ int logicalShift(int x, int n) {
  * swapNibblePairs - swap the low and high 4 bits within each byte of x
  *   Examples: swapNibblePairs(0xAB) = 0xBA
  *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 24
+ *   Max ops: 18
  *   Rating: 5
  */
 int swapNibblePairs(int x) {
@@ -262,28 +267,30 @@ int rotateRightBits(int x, int n) {
 
 // P11
 /* 
- * fractions - return floor((x*5 + 8)/16) for 0 <= x <= (1 << 28), x is an integer 
- *   Example: fractions(20) = 6
+ * midpointTowardFirst - return the exact mathematical midpoint (x+y)/2
+ *   without overflow. When the midpoint is a half-integer, round toward x.
+ *   Examples: midpointTowardFirst(4, 7) = 5,
+ *             midpointTowardFirst(7, 4) = 6
  *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 8
+ *   Max ops: 32
  *   Rating: 5
  */
-int fractions(int x) {
-  return 11;
+int midpointTowardFirst(int x, int y) {
+  return 0;
 }
 
 
 // P12
 /* 
- * overflowCalc - given binary representations of three 32-bit positive numbers and add them together, 
- *      return the binary representation of the part where bits are higher than 32.
- *   Examples: overflowCalc(0xffffffff, 0xffffffff, 0xffffffff) = 2
+ * classifyAdd3 - classify the exact mathematical sum x+y+z.
+ *   Return 1 if the sum is greater than INT_MAX, -1 if it is less than
+ *   INT_MIN, and 0 otherwise. You may not use a wider integer type.
  *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 30
+ *   Max ops: 52
  *   Rating: 7 
  */
-int overflowCalc(int x, int y, int z) {
-  return 12;
+int classifyAdd3(int x, int y, int z) {
+  return 0;
 }
 
 // P13
@@ -292,7 +299,7 @@ int overflowCalc(int x, int y, int z) {
  * INT_MAX(0x7fffffff) or INT_MIN(0x80000000) correspondingly
  *   Examples: mul5Sat(1) = 0x5, mul5Sat(0x40000000) = 0x7fffffff
  *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 36
+ *   Max ops: 30
  *   Rating: 7
  */
 int mul5Sat(int x) {
@@ -301,18 +308,18 @@ int mul5Sat(int x) {
 
 // P14
 /* 
- * float_half - Return bit-level equivalent of expression f/2 for
+ * floatScaleThreeHalves - Return bit-level equivalent of expression f*3/2 for
  *   floating point argument f.
  *   Both the argument and result are passed as unsigned int's, but
  *   they are to be interpreted as the bit-level representation of
  *   single-precision floating point values.
- *   When argument is NaN, return argument
+ *   Use round-to-nearest-even. When argument is NaN, return argument.
  *   Legal ops: Any integer / unsigned operations incl. ||, &&. also if, while
- *   Max ops: 32
+ *   Max ops: 60
  *   Rating: 7
  */
-unsigned float_half(unsigned f) {
-  return 14;
+unsigned floatScaleThreeHalves(unsigned uf) {
+  return 0;
 }
 
 // P15
@@ -350,19 +357,16 @@ unsigned float_i2f(int x) {
 
 // P16
 /* 
- * float_inv - Return bit-level equivalent of expression 1/x (x is an integer) for
- *   Result is returned as unsigned int, but
- *   it is to be interpreted as the bit-level representation of a
- *   single-precision floating point values.
- *   When x is 0, return NaN.
+ * floatRoundEven - round the floating-point value represented by uf to the
+ *   nearest integer, with halfway cases rounded to the even integer. Return
+ *   the bit-level representation of that integer as a single-precision float.
+ *   Preserve signed zero. When uf is NaN or infinity, return uf unchanged.
  *   Legal ops: Any integer / unsigned operations incl. ||, &&. also if, while
- *   Max ops: 120
+ *   Max ops: 65
  *   Rating: 10
- *   For mercy, x is between -16777216 and 16777216, meaning that you don't have
- *   to handle denormalized numbers.
  */
-unsigned float_inv(int x) {
-  return 16;
+unsigned floatRoundEven(unsigned uf) {
+  return 0;
 }
 
 // P17

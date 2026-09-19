@@ -1,26 +1,32 @@
-make clean && make all > /dev/null
+#!/usr/bin/env bash
+set -u
 
-if [ $? -eq 0 ]; then
-    echo "make successed"
-else
-    echo "make failed"
+if ! make clean || ! make all; then
+    echo "build failed" >&2
     exit 1
 fi
 
-dlc_output=$(./dlc bits.c)
-dlc_excepted_output=""
-if [ "$dlc_output" == "$dlc_excepted_output" ]; then
-    echo "pass dlc"
-else
-    echo "fail to pass dlc"
-    echo -e "error: ${dlc_output}\n"
+dlc_output=$(./dlc bits.c 2>&1)
+dlc_status=$?
+if [ "$dlc_status" -ne 0 ] || [ -n "$dlc_output" ]; then
+    echo "dlc check failed" >&2
+    printf '%s\n' "$dlc_output" >&2
+    exit 1
+fi
+echo "dlc check passed"
+
+btest_output=$(./btest 2>&1)
+btest_status=$?
+printf '%s\n' "$btest_output"
+if [ "$btest_status" -ne 0 ]; then
+    echo "btest failed" >&2
+    exit 1
 fi
 
-echo "calculating total score with btest..."
-btest_output=$(./btest)
-length=${#btest_output}
-score=${btest_output:$((length - 5)):${length}}
-echo "score: '$score'"
-echo "done"
+score=$(printf '%s\n' "$btest_output" | sed -n 's/.*Total points: *\([0-9][0-9]*\/[0-9][0-9]*\).*/\1/p' | tail -n 1)
+if [ "$score" != "110/110" ]; then
+    echo "incomplete score: ${score:-not found}" >&2
+    exit 1
+fi
 
-exit 0
+echo "all checks passed: $score"
