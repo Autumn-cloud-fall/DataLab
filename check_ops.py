@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Run the bundled legacy dlc against both original and renamed puzzles."""
 
+import argparse
 import re
 import subprocess
 import sys
@@ -51,12 +52,38 @@ def extract_function(source: str, name: str) -> str:
 
 
 def main() -> int:
-    source_path = Path(sys.argv[1] if len(sys.argv) > 1 else "bits.c")
+    parser = argparse.ArgumentParser(
+        prog="check_ops.py",
+        description="Run the bundled legacy dlc against both original and "
+                    "renamed puzzles.",
+    )
+    parser.add_argument(
+        "source", nargs="?", default="bits.c",
+        help="path to the file to check (default: bits.c)",
+    )
+    parser.add_argument(
+        "-f", "--function", dest="selected", action="append", metavar="NAME",
+        help="check only NAME (repeatable); without this option all puzzles "
+             "are checked",
+    )
+    args = parser.parse_args()
+
+    if args.selected:
+        known = {name for name, _, _ in PUZZLES}
+        unknown = [name for name in args.selected if name not in known]
+        if unknown:
+            print("unknown function(s): " + ", ".join(unknown), file=sys.stderr)
+            return 1
+        puzzles = [puzzle for puzzle in PUZZLES if puzzle[0] in args.selected]
+    else:
+        puzzles = PUZZLES
+
+    source_path = Path(args.source)
     source = source_path.read_text(encoding="utf-8")
     dlc = Path(__file__).resolve().with_name("dlc")
     failures = []
 
-    for name, proxy, maximum in PUZZLES:
+    for name, proxy, maximum in puzzles:
         try:
             body = extract_function(source, name)
         except ValueError as error:
@@ -92,7 +119,10 @@ def main() -> int:
         print("\nOperator check failed:", file=sys.stderr)
         print("\n".join(failures), file=sys.stderr)
         return 1
-    print("All 19 functions passed operator checks.")
+    if args.selected:
+        print("All requested functions passed operator checks.")
+    else:
+        print(f"All {len(PUZZLES)} functions passed operator checks.")
     return 0
 
 

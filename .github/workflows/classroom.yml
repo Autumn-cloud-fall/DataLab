@@ -20,25 +20,21 @@ jobs:
       # 32-bit on x86-64 anyway.
       - name: Setup
         run: |
+          chmod +x dlc check_ops.py
           make clean
           make all CFLAGS='-O -Wall -fwrapv'
 
-      - name: Operator Check
-        id: operator-check
-        env:
-          TEST_NAME: Operator Check
-          GRADER_COMMAND: "chmod +x dlc check_ops.py && ./check_ops.py bits.c"
-          EXPECTED_OUTPUT: "All 19 functions passed operator checks."
-          COMPARISON_METHOD: contains
-          TIMEOUT_MINUTES: "10"
-          MAX_SCORE: "100"
-        run: bash .github/scripts/autograde.sh
+      # Every problem is graded by combining its own operator/operand rule check
+      # with its correctness test. A problem that uses illegal syntax or exceeds
+      # its operator limit fails on its own and scores 0 for that problem only;
+      # there is no separate global operator-check score. The scored total is
+      # therefore exactly the lab's 110 correctness points.
 
       - name: signMask
         id: signmask
         env:
           TEST_NAME: signMask
-          GRADER_COMMAND: "./btest -f signMask"
+          GRADER_COMMAND: "./check_ops.py --function signMask bits.c && ./btest -f signMask"
           EXPECTED_OUTPUT: "Total points: 1/1"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -49,7 +45,7 @@ jobs:
         id: bitxor
         env:
           TEST_NAME: bitXor
-          GRADER_COMMAND: "./btest -f bitXor"
+          GRADER_COMMAND: "./check_ops.py --function bitXor bits.c && ./btest -f bitXor"
           EXPECTED_OUTPUT: "Total points: 2/2"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -60,7 +56,7 @@ jobs:
         id: negativepart
         env:
           TEST_NAME: negativePart
-          GRADER_COMMAND: "./btest -f negativePart"
+          GRADER_COMMAND: "./check_ops.py --function negativePart bits.c && ./btest -f negativePart"
           EXPECTED_OUTPUT: "Total points: 3/3"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -71,7 +67,7 @@ jobs:
         id: copybytewithin
         env:
           TEST_NAME: copyByteWithin
-          GRADER_COMMAND: "./btest -f copyByteWithin"
+          GRADER_COMMAND: "./check_ops.py --function copyByteWithin bits.c && ./btest -f copyByteWithin"
           EXPECTED_OUTPUT: "Total points: 4/4"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -82,7 +78,7 @@ jobs:
         id: logicalshift
         env:
           TEST_NAME: logicalShift
-          GRADER_COMMAND: "./btest -f logicalShift"
+          GRADER_COMMAND: "./check_ops.py --function logicalShift bits.c && ./btest -f logicalShift"
           EXPECTED_OUTPUT: "Total points: 4/4"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -93,7 +89,7 @@ jobs:
         id: swapnibblepairs
         env:
           TEST_NAME: swapNibblePairs
-          GRADER_COMMAND: "./btest -f swapNibblePairs"
+          GRADER_COMMAND: "./check_ops.py --function swapNibblePairs bits.c && ./btest -f swapNibblePairs"
           EXPECTED_OUTPUT: "Total points: 4/4"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -104,7 +100,7 @@ jobs:
         id: secondlowestzerobit
         env:
           TEST_NAME: secondLowestZeroBit
-          GRADER_COMMAND: "./btest -f secondLowestZeroBit"
+          GRADER_COMMAND: "./check_ops.py --function secondLowestZeroBit bits.c && ./btest -f secondLowestZeroBit"
           EXPECTED_OUTPUT: "Total points: 4/4"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -115,7 +111,7 @@ jobs:
         id: oddparity
         env:
           TEST_NAME: oddParity
-          GRADER_COMMAND: "./btest -f oddParity"
+          GRADER_COMMAND: "./check_ops.py --function oddParity bits.c && ./btest -f oddParity"
           EXPECTED_OUTPUT: "Total points: 5/5"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -126,7 +122,7 @@ jobs:
         id: rotaterightbits
         env:
           TEST_NAME: rotateRightBits
-          GRADER_COMMAND: "./btest -f rotateRightBits"
+          GRADER_COMMAND: "./check_ops.py --function rotateRightBits bits.c && ./btest -f rotateRightBits"
           EXPECTED_OUTPUT: "Total points: 5/5"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -137,7 +133,7 @@ jobs:
         id: roundevenpow2
         env:
           TEST_NAME: roundEvenPow2
-          GRADER_COMMAND: "./btest -f roundEvenPow2"
+          GRADER_COMMAND: "./check_ops.py --function roundEvenPow2 bits.c && ./btest -f roundEvenPow2"
           EXPECTED_OUTPUT: "Total points: 5/5"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -148,7 +144,7 @@ jobs:
         id: midpointtowardfirst
         env:
           TEST_NAME: midpointTowardFirst
-          GRADER_COMMAND: "./btest -f midpointTowardFirst"
+          GRADER_COMMAND: "./check_ops.py --function midpointTowardFirst bits.c && ./btest -f midpointTowardFirst"
           EXPECTED_OUTPUT: "Total points: 5/5"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -159,7 +155,7 @@ jobs:
         id: isbetweeneitherorder
         env:
           TEST_NAME: isBetweenEitherOrder
-          GRADER_COMMAND: "./btest -f isBetweenEitherOrder"
+          GRADER_COMMAND: "./check_ops.py --function isBetweenEitherOrder bits.c && ./btest -f isBetweenEitherOrder"
           EXPECTED_OUTPUT: "Total points: 7/7"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -170,7 +166,7 @@ jobs:
         id: mul5sat
         env:
           TEST_NAME: mul5Sat
-          GRADER_COMMAND: "./btest -f mul5Sat"
+          GRADER_COMMAND: "./check_ops.py --function mul5Sat bits.c && ./btest -f mul5Sat"
           EXPECTED_OUTPUT: "Total points: 7/7"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -181,7 +177,7 @@ jobs:
         id: classifyadd3
         env:
           TEST_NAME: classifyAdd3
-          GRADER_COMMAND: "./btest -f classifyAdd3"
+          GRADER_COMMAND: "./check_ops.py --function classifyAdd3 bits.c && ./btest -f classifyAdd3"
           EXPECTED_OUTPUT: "Total points: 7/7"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -192,7 +188,7 @@ jobs:
         id: floatscalethreehalves
         env:
           TEST_NAME: floatScaleThreeHalves
-          GRADER_COMMAND: "./btest -f floatScaleThreeHalves"
+          GRADER_COMMAND: "./check_ops.py --function floatScaleThreeHalves bits.c && ./btest -f floatScaleThreeHalves"
           EXPECTED_OUTPUT: "Total points: 7/7"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -203,7 +199,7 @@ jobs:
         id: floatroundeven
         env:
           TEST_NAME: floatRoundEven
-          GRADER_COMMAND: "./btest -f floatRoundEven"
+          GRADER_COMMAND: "./check_ops.py --function floatRoundEven bits.c && ./btest -f floatRoundEven"
           EXPECTED_OUTPUT: "Total points: 10/10"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -214,7 +210,7 @@ jobs:
         id: float_i2f
         env:
           TEST_NAME: float_i2f
-          GRADER_COMMAND: "./btest -f float_i2f"
+          GRADER_COMMAND: "./check_ops.py --function float_i2f bits.c && ./btest -f float_i2f"
           EXPECTED_OUTPUT: "Total points: 10/10"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -225,7 +221,7 @@ jobs:
         id: bitcount
         env:
           TEST_NAME: bitCount
-          GRADER_COMMAND: "./btest -f bitCount"
+          GRADER_COMMAND: "./check_ops.py --function bitCount bits.c && ./btest -f bitCount"
           EXPECTED_OUTPUT: "Total points: 10/10"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -236,7 +232,7 @@ jobs:
         id: bitreverse
         env:
           TEST_NAME: bitReverse
-          GRADER_COMMAND: "./btest -f bitReverse"
+          GRADER_COMMAND: "./check_ops.py --function bitReverse bits.c && ./btest -f bitReverse"
           EXPECTED_OUTPUT: "Total points: 10/10"
           COMPARISON_METHOD: contains
           TIMEOUT_MINUTES: "10"
@@ -246,7 +242,6 @@ jobs:
       - name: Autograding Reporter
         uses: classroom-resources/autograding-grading-reporter@v1
         env:
-          OPERATOR-CHECK_RESULTS: "${{steps.operator-check.outputs.result}}"
           SIGNMASK_RESULTS: "${{steps.signmask.outputs.result}}"
           BITXOR_RESULTS: "${{steps.bitxor.outputs.result}}"
           COPYBYTEWITHIN_RESULTS: "${{steps.copybytewithin.outputs.result}}"
@@ -267,4 +262,4 @@ jobs:
           BITCOUNT_RESULTS: "${{steps.bitcount.outputs.result}}"
           BITREVERSE_RESULTS: "${{steps.bitreverse.outputs.result}}"
         with:
-          runners: operator-check,signmask,bitxor,negativepart,copybytewithin,logicalshift,swapnibblepairs,secondlowestzerobit,oddparity,rotaterightbits,roundevenpow2,midpointtowardfirst,isbetweeneitherorder,mul5sat,classifyadd3,floatscalethreehalves,floatroundeven,float_i2f,bitcount,bitreverse
+          runners: signmask,bitxor,negativepart,copybytewithin,logicalshift,swapnibblepairs,secondlowestzerobit,oddparity,rotaterightbits,roundevenpow2,midpointtowardfirst,isbetweeneitherorder,mul5sat,classifyadd3,floatscalethreehalves,floatroundeven,float_i2f,bitcount,bitreverse
