@@ -13,266 +13,236 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # Setup runs once instead of once per test. The original workflow used the
+      # io-grader's `setup-command` on every test, rebuilding the lab 20 times.
+      # Built without -m32: the runner has no gcc-multilib, and int/unsigned are
+      # 32-bit on x86-64 anyway.
+      - name: Setup
+        run: |
+          make clean
+          make all CFLAGS='-O -Wall -fwrapv'
+
       - name: Operator Check
         id: operator-check
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: Operator Check
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: chmod +x dlc check_ops.py && ./check_ops.py bits.c
-          input: ""
-          expected-output: "All 19 functions passed operator checks."
-          comparison-method: contains
-          timeout: 10
-          max-score: 100
+        env:
+          TEST_NAME: Operator Check
+          GRADER_COMMAND: "chmod +x dlc check_ops.py && ./check_ops.py bits.c"
+          EXPECTED_OUTPUT: "All 19 functions passed operator checks."
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "100"
+        run: bash .github/scripts/autograde.sh
+
       - name: signMask
         id: signmask
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: signMask
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f signMask
-          input: ""
-          expected-output: "Total points: 1/1"
-          comparison-method: contains
-          timeout: 10
-          max-score: 1
+        env:
+          TEST_NAME: signMask
+          GRADER_COMMAND: "./btest -f signMask"
+          EXPECTED_OUTPUT: "Total points: 1/1"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "1"
+        run: bash .github/scripts/autograde.sh
+
       - name: bitXor
         id: bitxor
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: bitXor
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f bitXor
-          input: ""
-          expected-output: "Total points: 2/2"
-          comparison-method: contains
-          timeout: 10
-          max-score: 2
+        env:
+          TEST_NAME: bitXor
+          GRADER_COMMAND: "./btest -f bitXor"
+          EXPECTED_OUTPUT: "Total points: 2/2"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "2"
+        run: bash .github/scripts/autograde.sh
+
       - name: negativePart
         id: negativepart
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: negativePart
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f negativePart
-          input: ""
-          expected-output: "Total points: 3/3"
-          comparison-method: contains
-          timeout: 10
-          max-score: 3
+        env:
+          TEST_NAME: negativePart
+          GRADER_COMMAND: "./btest -f negativePart"
+          EXPECTED_OUTPUT: "Total points: 3/3"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "3"
+        run: bash .github/scripts/autograde.sh
+
       - name: copyByteWithin
         id: copybytewithin
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: copyByteWithin
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f copyByteWithin
-          input: ""
-          expected-output: "Total points: 4/4"
-          comparison-method: contains
-          timeout: 10
-          max-score: 4
+        env:
+          TEST_NAME: copyByteWithin
+          GRADER_COMMAND: "./btest -f copyByteWithin"
+          EXPECTED_OUTPUT: "Total points: 4/4"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "4"
+        run: bash .github/scripts/autograde.sh
+
       - name: logicalShift
         id: logicalshift
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: logicalShift
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f logicalShift
-          input: ""
-          expected-output: "Total points: 4/4"
-          comparison-method: contains
-          timeout: 10
-          max-score: 4
+        env:
+          TEST_NAME: logicalShift
+          GRADER_COMMAND: "./btest -f logicalShift"
+          EXPECTED_OUTPUT: "Total points: 4/4"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "4"
+        run: bash .github/scripts/autograde.sh
+
       - name: swapNibblePairs
         id: swapnibblepairs
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: swapNibblePairs
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f swapNibblePairs
-          input: ""
-          expected-output: "Total points: 4/4"
-          comparison-method: contains
-          timeout: 10
-          max-score: 4
+        env:
+          TEST_NAME: swapNibblePairs
+          GRADER_COMMAND: "./btest -f swapNibblePairs"
+          EXPECTED_OUTPUT: "Total points: 4/4"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "4"
+        run: bash .github/scripts/autograde.sh
+
       - name: secondLowestZeroBit
         id: secondlowestzerobit
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: secondLowestZeroBit
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f secondLowestZeroBit
-          input: ""
-          expected-output: "Total points: 4/4"
-          comparison-method: contains
-          timeout: 10
-          max-score: 4
+        env:
+          TEST_NAME: secondLowestZeroBit
+          GRADER_COMMAND: "./btest -f secondLowestZeroBit"
+          EXPECTED_OUTPUT: "Total points: 4/4"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "4"
+        run: bash .github/scripts/autograde.sh
+
       - name: oddParity
         id: oddparity
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: oddParity
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f oddParity
-          input: ""
-          expected-output: "Total points: 5/5"
-          comparison-method: contains
-          timeout: 10
-          max-score: 5
+        env:
+          TEST_NAME: oddParity
+          GRADER_COMMAND: "./btest -f oddParity"
+          EXPECTED_OUTPUT: "Total points: 5/5"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "5"
+        run: bash .github/scripts/autograde.sh
+
       - name: rotateRightBits
         id: rotaterightbits
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: rotateRightBits
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f rotateRightBits
-          input: ""
-          expected-output: "Total points: 5/5"
-          comparison-method: contains
-          timeout: 10
-          max-score: 5
+        env:
+          TEST_NAME: rotateRightBits
+          GRADER_COMMAND: "./btest -f rotateRightBits"
+          EXPECTED_OUTPUT: "Total points: 5/5"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "5"
+        run: bash .github/scripts/autograde.sh
+
       - name: roundEvenPow2
         id: roundevenpow2
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: roundEvenPow2
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f roundEvenPow2
-          input: ""
-          expected-output: "Total points: 5/5"
-          comparison-method: contains
-          timeout: 10
-          max-score: 5
+        env:
+          TEST_NAME: roundEvenPow2
+          GRADER_COMMAND: "./btest -f roundEvenPow2"
+          EXPECTED_OUTPUT: "Total points: 5/5"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "5"
+        run: bash .github/scripts/autograde.sh
+
       - name: midpointTowardFirst
         id: midpointtowardfirst
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: midpointTowardFirst
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f midpointTowardFirst
-          input: ""
-          expected-output: "Total points: 5/5"
-          comparison-method: contains
-          timeout: 10
-          max-score: 5
+        env:
+          TEST_NAME: midpointTowardFirst
+          GRADER_COMMAND: "./btest -f midpointTowardFirst"
+          EXPECTED_OUTPUT: "Total points: 5/5"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "5"
+        run: bash .github/scripts/autograde.sh
+
       - name: isBetweenEitherOrder
         id: isbetweeneitherorder
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: isBetweenEitherOrder
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f isBetweenEitherOrder
-          input: ""
-          expected-output: "Total points: 7/7"
-          comparison-method: contains
-          timeout: 10
-          max-score: 7
+        env:
+          TEST_NAME: isBetweenEitherOrder
+          GRADER_COMMAND: "./btest -f isBetweenEitherOrder"
+          EXPECTED_OUTPUT: "Total points: 7/7"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "7"
+        run: bash .github/scripts/autograde.sh
+
       - name: mul5Sat
         id: mul5sat
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: mul5Sat
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f mul5Sat
-          input: ""
-          expected-output: "Total points: 7/7"
-          comparison-method: contains
-          timeout: 10
-          max-score: 7
+        env:
+          TEST_NAME: mul5Sat
+          GRADER_COMMAND: "./btest -f mul5Sat"
+          EXPECTED_OUTPUT: "Total points: 7/7"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "7"
+        run: bash .github/scripts/autograde.sh
+
       - name: classifyAdd3
         id: classifyadd3
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: classifyAdd3
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f classifyAdd3
-          input: ""
-          expected-output: "Total points: 7/7"
-          comparison-method: contains
-          timeout: 10
-          max-score: 7
+        env:
+          TEST_NAME: classifyAdd3
+          GRADER_COMMAND: "./btest -f classifyAdd3"
+          EXPECTED_OUTPUT: "Total points: 7/7"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "7"
+        run: bash .github/scripts/autograde.sh
+
       - name: floatScaleThreeHalves
         id: floatscalethreehalves
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: floatScaleThreeHalves
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f floatScaleThreeHalves
-          input: ""
-          expected-output: "Total points: 7/7"
-          comparison-method: contains
-          timeout: 10
-          max-score: 7
+        env:
+          TEST_NAME: floatScaleThreeHalves
+          GRADER_COMMAND: "./btest -f floatScaleThreeHalves"
+          EXPECTED_OUTPUT: "Total points: 7/7"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "7"
+        run: bash .github/scripts/autograde.sh
+
       - name: floatRoundEven
         id: floatroundeven
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: floatRoundEven
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f floatRoundEven
-          input: ""
-          expected-output: "Total points: 10/10"
-          comparison-method: contains
-          timeout: 10
-          max-score: 10
+        env:
+          TEST_NAME: floatRoundEven
+          GRADER_COMMAND: "./btest -f floatRoundEven"
+          EXPECTED_OUTPUT: "Total points: 10/10"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "10"
+        run: bash .github/scripts/autograde.sh
+
       - name: float_i2f
         id: float_i2f
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: float_i2f
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f float_i2f
-          input: ""
-          expected-output: "Total points: 10/10"
-          comparison-method: contains
-          timeout: 10
-          max-score: 10
+        env:
+          TEST_NAME: float_i2f
+          GRADER_COMMAND: "./btest -f float_i2f"
+          EXPECTED_OUTPUT: "Total points: 10/10"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "10"
+        run: bash .github/scripts/autograde.sh
+
       - name: bitCount
         id: bitcount
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: bitCount
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f bitCount
-          input: ""
-          expected-output: "Total points: 10/10"
-          comparison-method: contains
-          timeout: 10
-          max-score: 10
+        env:
+          TEST_NAME: bitCount
+          GRADER_COMMAND: "./btest -f bitCount"
+          EXPECTED_OUTPUT: "Total points: 10/10"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "10"
+        run: bash .github/scripts/autograde.sh
+
       - name: bitReverse
         id: bitreverse
-        uses: classroom-resources/autograding-io-grader@v1
-        with:
-          test-name: bitReverse
-          setup-command: sudo apt-get install gcc-multilib && make clean
-            && make all
-          command: ./btest -f bitReverse
-          input: ""
-          expected-output: "Total points: 10/10"
-          comparison-method: contains
-          timeout: 10
-          max-score: 10
+        env:
+          TEST_NAME: bitReverse
+          GRADER_COMMAND: "./btest -f bitReverse"
+          EXPECTED_OUTPUT: "Total points: 10/10"
+          COMPARISON_METHOD: contains
+          TIMEOUT_MINUTES: "10"
+          MAX_SCORE: "10"
+        run: bash .github/scripts/autograde.sh
+
       - name: Autograding Reporter
         uses: classroom-resources/autograding-grading-reporter@v1
         env:
