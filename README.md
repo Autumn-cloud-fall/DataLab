@@ -1,5 +1,7 @@
 # Lab 1：Data Lab 实验指南
 
+Due: 9 Oct, 23:59:59
+
 本实验通过受限的整数运算和 IEEE 754 单精度浮点数位级操作，练习二进制补码、掩码、移位、溢出和舍入。
 
 你只需要修改 `bits.c` 中 P1–P19 的函数体。不要修改函数名、参数、返回类型、测试程序或评分配置。全部通过时，`btest` 最后一行应为：
@@ -8,28 +10,65 @@
 Total points: 110/110
 ```
 
-## 1. 实验环境
+我们将根据你的 Github 仓库中最终的自动测试结果评分。请把你的修改提交到 Github 仓库，并把仓库链接提交至 E-Learning 平台。
 
-请在支持 32 位编译的 x86-64 Linux 环境中完成实验，例如课程服务器、Ubuntu 虚拟机或 WSL。仓库中的 `dlc` 是 Linux ELF 可执行文件，不能直接在 macOS 或 Windows 上运行。
+## 部署实验环境
 
-Ubuntu 22.04 可安装：
+### 环境要求
 
-```bash
+在支持 32 位编译的 x86-64 Linux 环境中完成实验可以获得完整评测体验，例如课程服务器、Ubuntu 虚拟机或 WSL。仓库中的 `dlc` 是 Linux ELF 可执行文件，不能直接在 macOS 或 Windows 上运行。
+
+若在不支持评测的系统如 M 系列芯片 MacOS 完成实验，也可以通过 Github Workflow 线上查看评测结果。完成提交和推送后，在仓库的 Actions 页面点入 Workflow 详情后，可以通过 Annotations 查看总分，也可以点击 run-autograding-tests 进入每个测试的详细流程检查，查看 Autograding Reporter 项（方法不稳定，可能需要多次刷新）或在右侧设置项中下载日志查看测试具体情况。
+
+**请注意不要修改 .github 文件夹内预设的自动化测试内容。**
+
+### 32 位编译 Linux 环境配置
+
+执行：
+
+```shell
 sudo apt-get update
 sudo apt-get install -y gcc make gcc-multilib libc6-dev-i386 python3
 ```
 
 如果编译时提示缺少 `bits/libc-header-start.h`、`-lgcc` 或其他 32 位库，通常是 `gcc-multilib` 或 `libc6-dev-i386` 未安装完整。
 
-## 2. 主要文件
+### 确认实验文件能正常构建
+
+键入 `ls`，你应当看到如下文件：
+
+```text
+Driverhdrs.pm  Driverlib.pm  Makefile  README.md  bits.c  bits.h  btest.c
+btest.h  check_ops.py  decl.c  dlc  driver.pl  fshow.c  ishow.c  test.sh  tests.c
+```
+
+在终端中依次执行下述指令，以生成可执行文件并执行：
+
+```shell
+make clean
+make all
+./btest
+```
+
+`make all` 会生成 `btest`、`ishow`、`fshow` 三个可执行文件。如果过程顺利，`./btest` 的最后一行会输出 `Total points: 0/110` 。
+
+如果遇到 `./check_ops.py: Permission denied` ，说明当前文件没有执行权限，执行：
+
+```shell
+chmod +x check_ops.py dlc
+```
+
+注意 `btest` 不会在源文件修改后自动重编译。每次改完 `bits.c` 都要重新执行 `make clean && make all` ，否则测试的可能仍是旧代码。
+
+## 主要文件
 
 | 文件 | 用途 |
 |---|---|
-| `README.md` | 当前实验说明 |
+| `README.md` | 实验说明，包含每道题的完整规则 |
 | `bits.c` | 唯一需要填写的代码文件；文件开头包含完整编码规则 |
 | `bits.h` | 函数声明，不能修改 |
 | `check_ops.py` | 当前题目的规则与操作数检查入口 |
-| `dlc` | `check_ops.py` 内部调用的 Data Lab 规则检查器 |
+| `dlc` | `check_ops.py` 内部调用的 DataLab 规则检查器 |
 | `decl.c`、`tests.c`、`btest.c` | 题目参数范围、参考行为与正确性测试 |
 | `Makefile` | 构建 `btest`、`ishow` 和 `fshow` |
 | `test.sh` | 一次执行构建、规则检查和完整测试 |
@@ -41,9 +80,11 @@ sudo apt-get install -y gcc make gcc-multilib libc6-dev-i386 python3
 2. `bits.c` 文件开头的编码规则；
 3. 每个函数上方的题意、合法运算符、最大操作数和输入范围。
 
-## 3. 32 位整数机器模型
+## 编码规则
 
-整数题采用 Data Lab 的 32 位机器模型，而不是以可移植 ISO C 程序为目标：
+### 32 位整数机器模型
+
+整数题采用 32 位机器模型：
 
 - `int` 是 32 位二进制补码；
 - 对有符号整数执行 `>>` 时采用算术右移，高位补符号位；
@@ -53,9 +94,7 @@ sudo apt-get install -y gcc make gcc-multilib libc6-dev-i386 python3
 
 构建脚本使用 `-m32 -fwrapv`，提交应以课程 Linux 环境中的检查结果为准。生成最高位掩码、把字节移入最高字节、计算加法的低 32 位等写法都依赖上述模型。
 
-## 4. 编码规则
-
-### 4.1 整数题
+### 整数题
 
 除 P2 有更严格限制外，整数题只允许：
 
@@ -78,7 +117,7 @@ sudo apt-get install -y gcc make gcc-multilib libc6-dev-i386 python3
 
 P2 `bitXor` 只能使用 `~` 和 `&`，不能使用其他通常允许的整数运算符。
 
-### 4.2 浮点题
+### 浮点题
 
 浮点题操作的是单精度浮点数的 32 位编码。参数和返回值使用 `int` 或 `unsigned`，不能直接使用 `float`。
 
@@ -96,9 +135,7 @@ P2 `bitXor` 只能使用 `~` 和 `&`，不能使用其他通常允许的整数�
 - `int`、`unsigned` 以外的数据类型；
 - 数组、结构体和联合体。
 
-## 5. 逐题规则表
-
-下表与 `bits.c`、`decl.c` 和 `check_ops.py` 当前配置一致。若后续版本出现冲突，以 `bits.c` 中函数上方注释和 `./check_ops.py bits.c` 的结果为准。
+## 逐题规则表
 
 整数题表中的“通用整数运算”指 `! ~ & ^ | + << >>`。
 
@@ -126,9 +163,9 @@ P2 `bitXor` 只能使用 `~` 和 `&`，不能使用其他通常允许的整数�
 
 具体输出语义、特殊值行为和示例请阅读 `bits.c` 中对应函数的注释。
 
-## 6. 推荐完成流程
+## 推荐完成流程
 
-### 6.1 一次完成一道题
+### 完成题目
 
 动手前先确认：
 
@@ -138,7 +175,7 @@ P2 `bitXor` 只能使用 `~` 和 `&`，不能使用其他通常允许的整数�
 4. 移位量是否可能为 0 或 31；
 5. 浮点题是否涉及非规格化数、NaN、无穷大或舍入中点。
 
-### 6.2 编译
+### 编译
 
 每次修改 `bits.c` 后重新编译：
 
@@ -149,7 +186,7 @@ make all
 
 `btest` 不会在源文件修改后自动重编译。若忘记重新编译，测试的可能仍是旧代码。
 
-### 6.3 检查运算符和操作数
+### 检查运算符和操作数
 
 ```bash
 ./check_ops.py bits.c
@@ -165,7 +202,7 @@ All 19 functions passed operator checks.
 
 规则检查通过只说明代码写法合法，不表示结果正确。
 
-### 6.4 测试单题
+### 测试单题
 
 ```bash
 ./btest -f 函数名
@@ -186,7 +223,7 @@ All 19 functions passed operator checks.
 
 失败时会显示输入、实际结果和期望结果。不要只针对一个失败样例打补丁，应继续检查同类边界。
 
-### 6.5 完整测试
+### 完整测试
 
 ```bash
 ./btest
@@ -202,9 +239,9 @@ All 19 functions passed operator checks.
 
 `test.sh` 只有在构建成功、规则检查通过并取得 `110/110` 时才返回状态码 0。在尚未完成全部题目时返回非零是正常现象，调试时应优先使用单题检查。
 
-## 7. 调试工具
+## 调试工具
 
-### 7.1 查看整数表示
+### 查看整数表示
 
 ```bash
 ./ishow 27
@@ -213,7 +250,7 @@ All 19 functions passed operator checks.
 
 `ishow` 会显示十六进制、有符号和无符号解释。
 
-### 7.2 查看浮点表示
+### 查看浮点表示
 
 ```bash
 ./fshow 0x3f800000
@@ -222,7 +259,7 @@ All 19 functions passed operator checks.
 
 `fshow` 会拆解符号位、阶码和尾数。
 
-### 7.3 优先测试的边界
+### 优先测试的边界
 
 整数题通常应关注：
 
@@ -242,7 +279,7 @@ All 19 functions passed operator checks.
 - 最大有限数、正负无穷；
 - 不同符号和 payload 的 NaN。
 
-## 8. 常见问题
+## 常见问题
 
 ### `./check_ops.py: Permission denied`
 
@@ -274,7 +311,7 @@ make all
 
 这是预期行为，因为脚本要求满分。使用 `./btest -f 函数名` 调试单题。
 
-## 9. 提交前自查
+## 提交前自查
 
 - 只修改了 `bits.c` 中允许填写的函数体；
 - 没有改变函数签名、测试文件或评分配置；
@@ -282,8 +319,4 @@ make all
 - `./check_ops.py bits.c` 的 19 题均通过；
 - `./btest` 得到 `110/110`；
 - 没有提交 `btest`、`ishow`、`fshow`、`*.o` 等编译产物；
-- 最终提交已经推送到课程要求的分支。
-
-## 10. 学术诚信
-
-本实验的价值在于独立推导与调试。可以查阅 C 语言、补码、位运算和 IEEE 754 资料，但不要复制他人的实现。引用资料或使用 AI 工具时，应遵守本课程的说明要求。
+- 最终提交已经推送，有自动测试结果。
