@@ -185,7 +185,7 @@ int negativePart(int x){
  *   Rating: 4
  */
 int copyByteWithin(int x, int src, int dst) {
-  return 0;
+  return 4;
 }
 
 // P5
@@ -198,7 +198,7 @@ int copyByteWithin(int x, int src, int dst) {
  *   Rating: 4
  */
 int logicalShift(int x, int n) {
-  return 7;
+  return 5;
 }
 
 // P6
@@ -210,7 +210,7 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int swapNibblePairs(int x) {
-  return 8;
+  return 6;
 }
 
 // P7
@@ -223,7 +223,7 @@ int swapNibblePairs(int x) {
  *   Rating: 4
  */
 int secondLowestZeroBit(int x) {
-  return 9;
+  return 7;
 }
 
 // P8
@@ -236,7 +236,7 @@ int secondLowestZeroBit(int x) {
  *   Rating: 5
  */
 int oddParity(int x) {
-  return 17;
+  return 8;
 }
 
 // P9
@@ -249,7 +249,7 @@ int oddParity(int x) {
  *   Rating: 5
  */
 int rotateRightBits(int x, int n) {
-  return 10;
+  return 9;
 }
 
 // P10
@@ -264,7 +264,7 @@ int rotateRightBits(int x, int n) {
  *   Rating: 5
  */
 int roundEvenPow2(int x, int n) {
-  return 0;
+  return 10;
 }
 
 // P11
@@ -280,7 +280,7 @@ int roundEvenPow2(int x, int n) {
  *   Rating: 5
  */
 int midpointTowardFirst(int x, int y) {
-  return 0;
+  return 11;
 }
 
 
@@ -294,7 +294,7 @@ int midpointTowardFirst(int x, int y) {
  *   Rating: 7
  */
 int isBetweenEitherOrder(int x, int a, int b) {
-  return 0;
+  return 12;
 }
 
 // P13
@@ -320,7 +320,7 @@ int mul5Sat(int x) {
  *   Rating: 7
  */
 int classifyAdd3(int x, int y, int z) {
-  return 0;
+  return 14;
 }
 
 // P15
@@ -337,7 +337,7 @@ int classifyAdd3(int x, int y, int z) {
  *   Rating: 7
  */
 unsigned floatScaleThreeHalves(unsigned uf) {
-  return 0;
+  return 15;
 }
 
 // P16
@@ -353,7 +353,7 @@ unsigned floatScaleThreeHalves(unsigned uf) {
  *   Rating: 10
  */
 unsigned floatRoundEven(unsigned uf) {
-  return 0;
+  return 16;
 }
 
 // P17
@@ -367,7 +367,7 @@ unsigned floatRoundEven(unsigned uf) {
  *   Rating: 10
  */
 unsigned float_i2f(int x) {
-  return 15;
+  return 17;
 }
 
 
